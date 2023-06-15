@@ -30,34 +30,6 @@ Power is handled by an external power supply delivering 9V, 1.5A.
 
 Those libraries are not included in this git repository but are referenced in the platformio.ini file and therefore should directly be downloaded by PlatformIO extension of VSCode when building the code. As none of those libraries are made available with persmissive open-source licence type, you have to contact the libraries authors if you want to include them in a product. 
 
-[### Webserver]
-
-- First you need to upload the content of the data folder onto the ESP
-- To access the webpage : 
-
-[### Scanner serial protocol]
-This protocol is the one which was used in the [3D LiDAR Scanner-v2](https://github.com/CLICKBE/3DLidarScanner-v2). Because the Arduino Uno used in the 2nd version did not have enough memory to store the scanning data, they were sent on the fly through serial protocol. As a matter This protocol has been integrated afterwards in this version of the scanner. 
-
-Once the Arduino script is uploaded and running onto the Arduino Uno board, the scanner can be control through serial protocol at 115200 bauds. The following commands are available : 
-s- s : perform 2D scan
-- y : perform 1D scan (vertical)
-- i : display scanner setup info
-- v : followed by an integer value sets the vertical step (e.g. `v 1`)
-- h : followed by an integer value sets the horizontal step (e.g. `h 1`)
-- p : scan reboot
-   
-Once the scan is launched (through s or y), it performs the XYZ coordinates conversion and ouputs all of the data throught serial port in the following manner : 
-
-`x y z h_idx v_idx distance `
-
-With : 
-- x : x coordinate in 3D space
-- y : y coordinate in 3D space
-- z : z coordinate in 3D space
-- h_idx : horizontal index of the scan
-- v_idx vertical index of the scan
-- distance : data coming from TF-Mini-s LiDAR sensor
-]
 
 ## 3D Visualization
 
