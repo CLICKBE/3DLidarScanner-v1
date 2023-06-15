@@ -9,7 +9,6 @@ This repository demonstrates a homemade 3D LiDAR scanner made out of a [Benewake
 
 ## Files in the repository
 - src/* : All the files use to run the program
-- data/index.htm : The webpage of the server runing on the ESP32
 - fritzing : [Fritzing](https://fritzing.org/) file used to draw the connections picture
 
 ## Using the 3D LiDAR scanner v1 - With Adafruit Mini Pan-Tilt
@@ -24,20 +23,23 @@ Power is handled by an external power supply delivering 9V, 1.5A.
 ![3DLidarScanner with stepper connections](https://github.com/CLICKBE/3DLidarScanner-v2/blob/main/fritzing/3DLidarScanner-v2-connections.png?raw=true)
 
 ### Library needed : 
-- TFMPlus : [https://github.com/budryerson/TFMini-Plus][(https://github.com/budryerson/TFMini-Plus). 
-- AsyncTCP for ESP32 : [https://github.com/esphome/AsyncTCP](https://github.com/esphome/AsyncTCP), LGPL-3.9 license
-- ESPAsyncWebServer : [https://github.com/esphome/ESPAsyncWebServer](https://github.com/esphome/ESPAsyncWebServer), author's right licence
+- TFMPlus : [https://github.com/budryerson/TFMini-Plus][(https://github.com/budryerson/TFMini-Plus), no licence so author's right. 
+- ESP32Servo : [https://github.com/madhephaestus/ESP32Servo](https://github.com/madhephaestus/ESP32Servo), no licence so author's right.
+- AsyncTCP for ESP32 : [https://github.com/esphome/AsyncTCP](https://github.com/esphome/AsyncTCP), LGPL-3.9 license.
+- ESPAsyncWebServer : [https://github.com/esphome/ESPAsyncWebServer](https://github.com/esphome/ESPAsyncWebServer), no licence so author's right.
 
-Those libraries are not included in this git repository but are referenced in the platformio.ini file and therefore should directly be downloaded by PlatformIO extension of VSCode when building the code.
+Those libraries are not included in this git repository but are referenced in the platformio.ini file and therefore should directly be downloaded by PlatformIO extension of VSCode when building the code. As none of those libraries are made available with persmissive open-source licence type, you have to contact the libraries authors if you want to include them in a product. 
 
-### Upload the server file to the ESP32
+[### Webserver]
 
-### Scanner serial protocol
+- First you need to upload the content of the data folder onto the ESP
+- To access the webpage : 
+
+[### Scanner serial protocol]
 This protocol is the one which was used in the [3D LiDAR Scanner-v2](https://github.com/CLICKBE/3DLidarScanner-v2). Because the Arduino Uno used in the 2nd version did not have enough memory to store the scanning data, they were sent on the fly through serial protocol. As a matter This protocol has been integrated afterwards in this version of the scanner. 
 
 Once the Arduino script is uploaded and running onto the Arduino Uno board, the scanner can be control through serial protocol at 115200 bauds. The following commands are available : 
-
-- s : perform 2D scan
+s- s : perform 2D scan
 - y : perform 1D scan (vertical)
 - i : display scanner setup info
 - v : followed by an integer value sets the vertical step (e.g. `v 1`)
@@ -55,11 +57,7 @@ With :
 - h_idx : horizontal index of the scan
 - v_idx vertical index of the scan
 - distance : data coming from TF-Mini-s LiDAR sensor
-
-## Webserver
-
-The 
-
+]
 
 ## 3D Visualization
 
