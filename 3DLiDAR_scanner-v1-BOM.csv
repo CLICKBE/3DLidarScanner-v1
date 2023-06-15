@@ -1,0 +1,6 @@
+Reference,Type,Quantity,Manufacturer,Link,Info
+ESP32-C3-DevkitM,Microcontroller,1,Espressif Systems,https://www.gotronic.fr/art-carte-esp32-c3-devkitm-1-34172.htm,
+Mini-PanTilt Kit,Pan/tilt arm,1,Adafruit,https://www.adafruit.com/product/1967,
+SG90-SG92,Micro-servomotor,2,Tower Pro,https://www.adafruit.com/product/169,"not to buy, included in Adafruit Mini Pan-Tilt Kit"
+COM-00097 ,Push Button,1,Sparkfun,https://www.mouser.fr/ProductDetail/SparkFun/COM-00097?qs=WyAARYrbSnbn3fwRSgKrFQ%3D%3D,
+TF-Mini-S,LiDAR,1,Beneware,https://www.gotronic.fr/art-capteur-de-distance-lidar-tf-mini-27615.htm,
