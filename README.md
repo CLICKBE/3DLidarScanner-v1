@@ -1,11 +1,11 @@
 # 3D LiDAR scanner v1 - With Adafruit Mini Pan-Tilt and ESP32-C3-DevKitM
 
-This repository demonstrates a homemade 3D LiDAR scanner made out of a [Benewake TF-Mini](https://www.gotronic.fr/art-capteur-de-distance-lidar-tf-mini-27615.htm) LiDAR sensor and [Adafruit Mini Pan-Tilt Kit](https://www.adafruit.com/product/1967). This scanner can produce 3D cloud points of spaces and was made to extract 3D point clouds of objects by subtracting two scans : one of the background and one of the object in the space. Once the cloudpoint is extracted, we planned to determine its height and gravity center 3D position to place it in the center of the space (not yet implemented).
+This repository demonstrates a homemade 3D LiDAR scanner made out of a [Benewake TF-Mini](https://www.gotronic.fr/art-capteur-de-distance-lidar-tf-mini-27615.htm) LiDAR sensor and [Adafruit Mini Pan-Tilt Kit](https://www.adafruit.com/product/1967). This scanner can produce 3D cloud points of spaces and was made to extract 3D point clouds of objects by subtracting two scans : one of the background and one of the object in the space. The two steps (scan of the background and scan of the background  and the object) can be triggered with a physical button. Once the object cloudpoint is extracted, we planned to determine its height and gravity center 3D position to place it in the center of the space (not yet implemented).
 
 
 |<img height="300" src="https://github.com/CLICKBE/MWE-scanner_stepper/assets/2494294/8350b0a7-daef-4660-8843-7ecf97d9d9a3" alt="scannerLidar-stepper"> | <img height="300" src="https://github.com/CLICKBE/MWE-scanner_stepper/assets/2494294/b51f2bb5-2d3f-4970-921e-cd1419681865" alt="scan3D-exemple">|
 | :---: | :---: |
-| The 3D LiDAR scanner| Example of 3D visualisation of the scanning |
+| The 3D LiDAR scanner | Example of 3D visualisation of the scanning |
 
 ## Files in the repository
 - src/* : All the files use to run the program
@@ -26,14 +26,10 @@ Power is handled by an external power supply delivering 9V, 1.5A.
 - TFMPlus : [https://github.com/budryerson/TFMini-Plus][(https://github.com/budryerson/TFMini-Plus), no licence so author's right. 
 - ESP32Servo : [https://github.com/madhephaestus/ESP32Servo](https://github.com/madhephaestus/ESP32Servo), GPL2.1 
 
-[//]<AsyncTCP for ESP32 : [https://github.com/esphome/AsyncTCP](https://github.com/esphome/AsyncTCP), LGPL-3.9 license.>
-[//] <ESPAsyncWebServer : [https://github.com/esphome/ESPAsyncWebServer](https://github.com/esphome/ESPAsyncWebServer), no licence so author's right.>
-
 Those libraries are not included in this git repository but are referenced in the platformio.ini file and therefore should directly be downloaded by PlatformIO extension of VSCode when building the code. As none of those libraries are made available with persmissive open-source licence type, you have to contact the libraries authors if you want to include them in a product. 
 
 
-## 3D Visualization
-
+## 3D Visualization :
 To perform a quick 3D visualization based on the serial data you can use the Processing script developed by Dana Peters : [LidarScanner.pde](https://drive.google.com/file/d/1D5wfzA8i0Pzh4qe-1skmpnqmhrvaq9d3/view?usp=drive_web) who also developped a [3D LiDAR scanner](https://www.qcontinuum.org/lidar-scanner).
 
 In order to use this script you will need free [Processing](https://processing.org/) software.
