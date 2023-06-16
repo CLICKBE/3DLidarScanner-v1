@@ -20,7 +20,7 @@ Power is handled by an external power supply delivering 9V, 1.5A.
 
 ### Connection
 
-![3DLidarScanner with stepper connections](https://github.com/CLICKBE/3DLidarScanner-v2/blob/main/fritzing/3DLidarScanner-v2-connections.png?raw=true)
+![3DLidarScanner-v1](https://github.com/CLICKBE/3DLidarScanner-v1/assets/2494294/4b8f6705-4c27-4613-b089-9a572626b98d)
 
 ### Library needed : 
 - TFMPlus : [https://github.com/budryerson/TFMini-Plus][(https://github.com/budryerson/TFMini-Plus), no licence so author's right. 
