@@ -189,45 +189,10 @@ void setup() {
   printf( "%zu %zu %zu\n", sizeof(distances), sizeof(uint16_t), sizeof(distances)/sizeof(distances[0]) );
   
   scannerInit( horizServoPin, vertServoPin );//100 360
- /*
-  setPosition( h_x_angle, v_x_angle, true );
-  delay( 10000 );
-  setPosition( h_y_angle, v_y_angle, true );
-  delay( 10000 );
-  setPosition( h_z_angle, v_z_angle, true );
-  delay( 10000 );
-  */
+
   testLidar();
-
-  // Initialize SPIFFS
-  if( !SPIFFS.begin( true ) ) 
-  {
-    Serial.println("An Error has occurred while mounting SPIFFS");
-    return;
-  }
   
-  //WiFi.softAP( ssid, password );
-  //IPAddress IP = WiFi.softAPIP();
-  //Serial.print("IP address: ");
-  //Serial.println(IP);
-  initServer( 0 );
 
-  //setIsScanning( false );
-  //Serial.print( "Size of PointAngles " );
-  //Serial.println( sizeof( PointAngles ) );
-  //Serial.print( "Size of PointIndexes " );
-  //Serial.println( sizeof( PointIndexes ) );
-
-  // TESTING FOR COMPUTEHEIGHT
-  
-   
-  //for( int i = 0; i < ARRAY_NB_ELEMENTS; i++ )
-  //  distances[ i ] = DISTANCE_MAX;
-    //distances[ i ] = uint16_t( random( 5, 100 ) );
-/**
-  int height = computeObjectHeight( distances );
-  Serial.println( height );
-  */
 // /*
 
   Serial.print( "--- Nb of values for distances array " );
@@ -278,71 +243,55 @@ void loop() {
       // reset the debouncing timer
       lastDebounceTime = millis();
     }
-    //Serial.println( "Reading " + String( reading ) );
-    //Serial.println( "millis() " + String( millis() ) + " lastDebounceTime " + String( lastDebounceTime ) + " debounceDelay " + String( debounceDelay ) + " " );
+    
     if ( ( millis() - lastDebounceTime ) > debounceDelay ) {
-      // whatever the reading is at, it's been there for longer than the debounce
-      // delay, so take it as the actual current state:
 
-      // if the button state has changed:
-      //Serial.println( "Before" );
-      if ( reading != buttonState ) {
-        buttonState = reading;
-        
-        // only toggle next step if the new button state is HIGH
-        if ( buttonState == HIGH ) {
-          nbBtnClick += 1;
-          //Serial.println( nbBtnClick );
+      if ( reading != buttonState ) 
+      {
+          buttonState = reading;
           
-          if( nbBtnClick == 1 ) 
-          {
-            //scannerTestBoxDimensions();
+          // only toggle next step if the new button state is HIGH
+          if ( buttonState == HIGH ) {
+            nbBtnClick += 1;
+            //Serial.println( nbBtnClick );
+            
+            if( nbBtnClick == 1 ) 
+            {
+              //scannerTestBoxDimensions();
 
-            Serial.println( "----- Scanning empty scene - " + String( nbBtnClick ) );
-//            is_scanning = true;
-            setIsScanning( true );
-            scanning( OUTPUT_JS, OUTPUT_SERIAL, "background", backgroundSavePath, distances, false );
-            Serial.println( "----- Scanning empty scene - DONE - is_scanning " + String( getIsScanning() ) );
-            //Point3D emptyScene = computeBaseHeight( distances );
-            //Serial.println( "---- Distance to limits : " + String( emptyScene.x ) + " " + String( emptyScene.y ) + " " + String( emptyScene.z ) );
-            
-            // getGroundDistance
-            debounceDelay = 50;
-            
-          }
-          else if( nbBtnClick == 2 ) 
-          {
-            Serial.println( "----- Scanning scene with objects - "  + String( nbBtnClick ) );
-            //is_scanning = true;
-            setIsScanning( true );
-            //scanning( OUTPUT_JS, OUTPUT_SERIAL, "with_objects", withObjectSavePath, cloudWithObject, false );
-            scanning( OUTPUT_JS, OUTPUT_SERIAL, "with_objects", withObjectSavePath, distances, true );
-          }
-          /*else if( nbBtnClick == 3 )
-          { 
-              Serial.println( "----- Sending object center to motor - "  + String( nbBtnClick ) );
-              //subtractCloudPoint( cloud, cloudWithObject, cloudObject, 0 );
-              //computeCloudXYZ( cloud );
-              int objectHeight = computeObjectHeight( distances );
-              printf( "ObjectHeight %i\n", objectHeight );
+              Serial.println( "----- Scanning empty scene - " + String( nbBtnClick ) );
+  //            is_scanning = true;
+              setIsScanning( true );
+              scanning( distances, false, true );
+              Serial.println( "----- Scanning empty scene - DONE - is_scanning " + String( getIsScanning() ) );
+              //Point3D emptyScene = computeBaseHeight( distances );
+              //Serial.println( "---- Distance to limits : " + String( emptyScene.x ) + " " + String( emptyScene.y ) + " " + String( emptyScene.z ) );
+              
+              // getGroundDistance
+              debounceDelay = 50;
+              
+            }
+            else if( nbBtnClick == 2 ) 
+            {
+              Serial.println( "----- Scanning scene with objects - "  + String( nbBtnClick ) );
+              //is_scanning = true;
+              setIsScanning( true );
+              //scanning( OUTPUT_JS, OUTPUT_SERIAL, "with_objects", withObjectSavePath, cloudWithObject, false );
+              scanning( distances, true, true );
+            }
+
+            if ( nbBtnClick >= MAX_PROG_STEP ) 
+            {
               nbBtnClick = 0;
-          }
-          //Serial.println( "PUSHED " + String( nbBtnClick ) );
-          */
-          if ( nbBtnClick >= MAX_PROG_STEP ) 
-          {
-            nbBtnClick = 0;
+            }
           }
         }
-      }
-      //Serial.println( "After" );
-      //Serial.println( is_scanning );
+
     }
 
     // save the reading. Next time through the loop, it'll be the lastButtonState:
     lastButtonState = reading;
 
   }
-  //Serial.println( "out " + String( is_scanning ) );
-  //scanning( JS );
+
 }

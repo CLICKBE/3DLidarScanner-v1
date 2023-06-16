@@ -25,8 +25,9 @@ Power is handled by an external power supply delivering 9V, 1.5A.
 ### Library needed : 
 - TFMPlus : [https://github.com/budryerson/TFMini-Plus][(https://github.com/budryerson/TFMini-Plus), no licence so author's right. 
 - ESP32Servo : [https://github.com/madhephaestus/ESP32Servo](https://github.com/madhephaestus/ESP32Servo), GPL2.1 
-- AsyncTCP for ESP32 : [https://github.com/esphome/AsyncTCP](https://github.com/esphome/AsyncTCP), LGPL-3.9 license.
-- ESPAsyncWebServer : [https://github.com/esphome/ESPAsyncWebServer](https://github.com/esphome/ESPAsyncWebServer), no licence so author's right.
+
+[//]<> (- AsyncTCP for ESP32 : [https://github.com/esphome/AsyncTCP](https://github.com/esphome/AsyncTCP), LGPL-3.9 license.)
+[//] <>(- ESPAsyncWebServer : [https://github.com/esphome/ESPAsyncWebServer](https://github.com/esphome/ESPAsyncWebServer), no licence so author's right.)
 
 Those libraries are not included in this git repository but are referenced in the platformio.ini file and therefore should directly be downloaded by PlatformIO extension of VSCode when building the code. As none of those libraries are made available with persmissive open-source licence type, you have to contact the libraries authors if you want to include them in a product. 
 

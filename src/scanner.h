@@ -249,6 +249,20 @@ void scanning( bool output_js, bool output_serial, String js_varname, char * pat
  */
 void scanning( bool output_js, bool output_serial, String js_varname, char * path, uint16_t distances [], bool subtract );
 
+/***
+ * @fn void scanning( uint16_t distances [], bool subtract, bool output_serial ) 
+ * 
+ * @brief Do the actual scanning, subtract the measured distance to the distance from the first scan if selected. 
+ * The function can also output the data throught serial communication.
+ * 
+ * @param distances (uint16_t []) : The array containing the results from the scanning operation.
+ * @param subtract (bool) : Whether or not to subtract the actual measure to the data contained in distances.
+ * @param output_serial (bool) : whether or not to output data through serial port.
+ * @return void
+ */
+void scanning( uint16_t distances [], bool subtract, bool output_serial );
+
+
 /**
  * @brief Convert horizontal and vertical angles to horizontal and vertical indexes of the scanner movement, 
  * e.g : scanning taking place between 10 and 20° horitally and 40° and 100° vertically leads to horizontal

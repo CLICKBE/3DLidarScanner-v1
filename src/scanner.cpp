@@ -197,13 +197,6 @@ void testLidar ()
 }
 
 void updateServoPosition() {
-/***
- * Increment Servo motors positions to next step (horizServoStep or vertServoStep) and line.
- * When hitting the end of the sweep, is_scanning is set to false.
- * Argument : none
- * Return type : void
- */
-
 
   int delayHoriztalServo = delayOneStepServo;
   int delayVerticalServo = 30;
@@ -239,61 +232,10 @@ void updateServoPosition() {
   delay( delayHoriztalServo );
 }  
 
-/*
-void printData () {
-  /***
-   * Print data to Serial monitor.
-   * Argument : None
-   * Return type : void
-  */ 
-/*    if( distance ) {
 
-      Serial.print( " DISTANCE -- " );
-      Serial.print( distance );
-      Serial.print( " | x: ");
-      Serial.print( currentHorizontalAngle );
-      Serial.print( " - y: ");
-      Serial.println( currentVerticalAngle );
-      Serial.flush();
-    }
-
-}
-
-
-void printScanPoint ( ScanPoint * sp )
+void sendDataSerial ( float x, float y, float z, int horizontalAngle, int verticalAngle, uint16_t distance ) 
 {
-  printf( "[ScanPoint x: %d -y: %d -- %d]\n", sp->horizIdx, sp->vertIdx, sp->distance );
-}
 
-void print3DPoint ( Point3D * point )
-{
-  printf( "[Point3d x: %f | y: %f | z %f]\n", point->x, point->y, point->z );
-}
-
-void printCloudPoint ( CloudPoint * cp, int index )
-{
-  if( index != NULL )
-    printf( "CloudPoint (%i) members \n\t", index );
-  else
-    printf( "CloudPoint members \n\t" );
-  printScanPoint( &( cp->scanCoord) );
-  printf( "\t" );
-  print3DPoint  ( &( cp->coord3D  ) );
-}
-*/
-void sendDataSerial ( float x, float y, float z, int horizontalAngle, int verticalAngle, uint16_t distance ) {
-  /***
-   * Send data through serial port. The format is "distance currentHorizontalAngle currentVerticalAngle"
-   * Hardware or software willing to receive those data must be setup at TFMINI_BAUDRATE speed.
-   * Argument : None
-   * Return type : void
-  */
-  //float azimuth = currentHorizontalAngle * deg2rad;
-  //float elevation = (180 - v_stop_angle + currentVerticalAngle ) * deg2rad;
-  //double x = distance * sin( elevation ) * cos(azimuth);
-  //double y = distance * sin( elevation ) * sin(azimuth);
-  //double z = distance * cos( elevation );
-  //Serial.println(String(-x, 5) + " " + String(y, 5) + " " + String(-z, 5));
   Serial.print( x );
   Serial.write( ' ');
   Serial.print( y );
@@ -308,23 +250,7 @@ void sendDataSerial ( float x, float y, float z, int horizontalAngle, int vertic
 
 }
 
-/*
-void computeCloudXYZ( CloudPoint cloud [] )
-{
-  for( int i = 0; i < ( sizeof(cloud) / sizeof(CloudPoint[0]) ); i++ )
-  {
-    computeXYZ
-    ( 
-      &cloud[ i ].coord3D.x,
-      &cloud[ i ].coord3D.x,
-      &cloud[ i ].coord3D.x,
-      cloud[ i ].scanCoord.horizIdx,
-      cloud[ i ].scanCoord.vertIdx,
-      cloud[ i ].scanCoord.distance
-    );
-  }
-}
-*/
+
 
 void computeCloudXYZ( uint16_t distances [] )
 {
@@ -346,225 +272,21 @@ void computeCloudXYZ( uint16_t distances [] )
     );
   }
 }
-/*
-void computeCloudXYZ( uint16_t distances [], Point3D cloud [])
-{
-  uint8_t h_index = -1, v_index = -1, h_angle = -1, v_angle = -1;
-  float x, y, z;
 
-  for( int i = 0; i < ARRAY_NB_ELEMENTS; i++ )
-  {
-    if( distances[ i ] > 0 )
-    {
-      oneLineIndex2HorizAndVertIndex( i, &h_index, &v_index );
-      pointIndexes2PointAngles( h_index, v_index, &h_angle, &v_angle );
-      computeXYZ
-      ( 
-        &cloud[ i].x,
-        &cloud[ i].y,
-        &cloud[ i].z,
-        distances[ i ],
-        h_index,
-        v_index
-      );
-    }
-  }
-}
-*/
 void computeXYZ( float *x, float *y, float *z, int hAngleDegree, int vAngleDegree, int16_t distance ) {
-
-//  float yawf = hAngleDegree * M_PI / 180;
-//  float pitchf = vAngleDegree * M_PI / 180;
 
   float pitchf = hAngleDegree * M_PI / 180;
   float yawf = vAngleDegree * M_PI / 180;
-
-
-//  float yawf   = hAngleDegree;
-//  float pitchf = vAngleDegree;
-
-  //Serial.println(yawf);
-  //Serial.println(pitchf);
-
-  // *x = -sin( yawf ) * distance * cos( pitchf );
-  // *y = cos( yawf ) * distance * cos( pitchf );
-  // *z = distance * sin( pitchf );
 
   *x = distance * -sin( yawf ) * cos( pitchf );
   *y = distance * sin( yawf ) * sin( pitchf );
   *z = distance * cos( pitchf );
 
-  //Serial.println( " Computing xyz from angles and distances : " 
-  //                    + String( *x ) + " " 
-  //                    + String( *y ) + " "
-  //                    + String( *z ) 
-  //                    + " -- point indexes "
-  //                    + hAngleDegree + " " 
-  //                    + vAngleDegree 
-  //              );
-
-}
-/*
-Point3D computeXYZ( int16_t distance, int horizPointIdx, int vertPointIdx )
-{
-  Point3D p3d;
-  
-  float yawf = currentHorizontalAngle * M_PI / 180;
-  float pitchf = (180 - v_stop_angle + currentVerticalAngle ) * M_PI / 180;
-
-  p3d.x = -sin( yawf ) * distance * cos( pitchf );
-  p3d.y = cos( yawf ) * distance * cos( pitchf );
-  p3d.z = distance * sin( pitchf );
-
-  return p3d;
 }
 
-Point3D computeXYZ( ScanPoint * sp )
-{
-  Point3D p3d;
-  
-  float yawf = sp->horizIdx * M_PI / 180;
-  float pitchf = (180 - v_stop_angle + sp->vertIdx ) * M_PI / 180;
-
-  p3d.x = -sin( yawf ) * sp->distance * cos( pitchf );
-  p3d.y = cos( yawf ) * sp->distance * cos( pitchf );
-  p3d.z = sp->distance * sin( pitchf );
-
-  return p3d;
-}
-*/
-/***
- * Do the actual scanning and format data to the output defined by outputType.
- * Argument : 
- *  output_js (bool) : whether or not write xyz coordinates in js format. This file is placed in the SPIFFS
- *  output_serial (bool) : whether or not outputting data through serial
- *  js_filepath (String) : path to the js file saving the scanning data if js is chosen, if output_js is set to true 
- *  but no filename is given, the default value is distance.js
- * Return :
- *  void
- */
-/*
-void scanning( bool output_js, bool output_serial, String js_varname, char * path, CloudPoint outputArray [], bool subtract ) 
-{
-
-  File f;
-  String distances = "";
-  char * jsVarName;
 
 
-  if( output_js ) {
-
-      if( js_varname == "" ) {
-        js_varname = "distance";
-      }
-     
-      // JS file is stored at the root of the filesystem
-      strcat( path, js_varname.c_str() );
-      strcat( path, ".js" );
-      Serial.println( path );
-
-      // Deleting any existing before writing it
-      if( SPIFFS.exists( path ) )
-        SPIFFS.remove( path );
-
-      f = SPIFFS.open( path, "w");
-      //printLocalTime();
-      if (!f) 
-      {
-        Serial.println("file open failed");
-        return;
-      }
-      
-      f.print( "var " + js_varname + " = new Float32Array([" );
-      Serial.println( "var " + js_varname + " = new Float32Array([" );
-    //  distances += "var " + js_varname + " = new Float32Array([";
-  }
-  if( is_scanning ) 
-  {
-    /*
-    #ifdef ESP32
-        if( !myservo_horiz.attached() ) myservo_horiz.attach( horizServoPin, 1000, 2000 );  
-        if( !myservo_vert.attached() )myservo_vert.attach( vertServoPin, 1000, 2000 );
-    #endif
-    */
-/*
-    while ( is_scanning ) 
-    {
-      if( tfmS.getData( distance, flux, temp) ) // Get data from the device.
-      {
-               
-        ScanPoint sp = { .horizIdx = currentHorizontalAngle, .vertIdx = currentVerticalAngle, .distance = distance }; 
-        
-        int horizontalIndex = currentHorizontalAngle - h_start_angle;
-        int verticalIndex = currentVerticalAngle - v_start_angle;
-        int oneLineArrayId = ( verticalIndex * cols ) + horizontalIndex;
-        
-        if( subtract )
-        {
-          // TODO : Add threshold ?
-          sp.distance -= outputArray[ oneLineArrayId ].scanCoord.distance;
-        }
-        Point3D p3d = computeXYZ( &sp );
-        //Point3D p3d = { .x = x, .y = y, .z = z };
-        
-        CloudPoint p = { .scanCoord = sp, .coord3D = p3d };
-        
-        printCloudPoint( &p, oneLineArrayId );
-
-        // Line probably generating the problem
-        //printf( "oneLineArrayId %i\n", oneLineArrayId);
-        outputArray[ oneLineArrayId ] = p;
-        //memcpy( &(outputArray[ oneLineArrayId ]), &p, sizeof(CloudPoint) );
-
-        if( output_js ) {
-          String vertex = String(p.coord3D.x, 3) + ", " + String(p.coord3D.y, 3) + ", " + String(p.coord3D.z, 3);
-          f.print(vertex + ", ");
-        //  distances += vertex + ", ";
-        }
-        if( output_serial ){
-          sendDataSerial( p.coord3D.x, p.coord3D.y, p.coord3D.z );
-        }
-        
-        #if DEBUG
-        printData();   // display distance,
-        #endif
-
-      }
-      else                  // If the command fails...
-      {
-        tfmS.printFrame();  // display the error and HEX dataa
-      }
-
-      delay( 2 );
-      
-      updateServoPosition(); 
-
-    }
-  }
-  
-  if( output_js )  {
-    f.print("]);");
-    f.close();
-    //distances += "]);";
-    Serial.println( "****** Closing vertices float array var");
-  }
-
-}
-*/
-/***
- * TODO : Update
- * @fn
- * 
- * @brief Do the actual scanning and format data to the output defined by outputType.
- * 
- * @param output_js (bool) : whether or not write xyz coordinates in js format. This file is placed in the SPIFFS
- *  output_serial (bool) : whether or not outputting data through serial
- *  js_filepath (String) : path to the js file saving the scanning data if js is chosen, if output_js is set to true 
- *  but no filename is given, the default value is distance.js
- * Return :
- *  void
- */
-void scanning( bool output_js, bool output_serial, String js_varname, char * path, uint16_t distances [], bool subtract ) 
+void scanning( uint16_t distances [], bool subtract, bool output_serial ) 
 {
 
   float x = -1., y = -1., z = -1.;
