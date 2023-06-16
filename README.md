@@ -13,6 +13,12 @@ This repository demonstrates a homemade 3D LiDAR scanner made out of a [Benewake
 
 ## Using the 3D LiDAR scanner v1 - With Adafruit Mini Pan-Tilt
 
+### Code
+
+This code has been developped with VSCode and PlatformIO backend. This repo therefore reproduced the fodler structure used in such project. Once you opened VSCode, open PlatformIO home page and hit Open Project button. Then, select the folder of the repository.
+
+If you don't know anything about VSCode and PlatformIO, here's a link to set you up : [https://platformio.org/install/ide?install=vscode](https://platformio.org/install/ide?install=vscode).
+
 ### Parts
 See `3DLiDAR_scanner-v1-BOM.csv`at the root of this repository.
 
@@ -34,18 +40,6 @@ To perform a quick 3D visualization based on the serial data you can use the Pro
 
 In order to use this script you will need free [Processing](https://processing.org/) software.
 
-In order to send commands from this Processing sketch to the scanner, you can modified the `keyPressed()` function of the code by adding the following `else` condition to the `if, else if` statements that are present :  
-```java
-else {
-    try {
-      serial.write( key );
-      println( "Sending command to scanner" );
-    }
-    catch (Exception e)
-    {
-      println( "Exception " + e );
-    }
-```
 
 ## License
  © 2022 – CLICK - Université de Mons
