@@ -24,7 +24,7 @@ Power is handled by an external power supply delivering 9V, 1.5A.
 
 ### Library needed : 
 - TFMPlus : [https://github.com/budryerson/TFMini-Plus][(https://github.com/budryerson/TFMini-Plus), no licence so author's right. 
-- ESP32Servo : [https://github.com/madhephaestus/ESP32Servo](https://github.com/madhephaestus/ESP32Servo), no licence so author's right.
+- ESP32Servo : [https://github.com/madhephaestus/ESP32Servo](https://github.com/madhephaestus/ESP32Servo), GPL2.1 
 - AsyncTCP for ESP32 : [https://github.com/esphome/AsyncTCP](https://github.com/esphome/AsyncTCP), LGPL-3.9 license.
 - ESPAsyncWebServer : [https://github.com/esphome/ESPAsyncWebServer](https://github.com/esphome/ESPAsyncWebServer), no licence so author's right.
 
@@ -36,6 +36,19 @@ Those libraries are not included in this git repository but are referenced in th
 To perform a quick 3D visualization based on the serial data you can use the Processing script developed by Dana Peters : [LidarScanner.pde](https://drive.google.com/file/d/1D5wfzA8i0Pzh4qe-1skmpnqmhrvaq9d3/view?usp=drive_web) who also developped a [3D LiDAR scanner](https://www.qcontinuum.org/lidar-scanner).
 
 In order to use this script you will need free [Processing](https://processing.org/) software.
+
+In order to send commands from this Processing sketch to the scanner, you can modified the `keyPressed()` function of the code by adding the following `else` condition to the `if, else if` statements that are present :  
+```java
+else {
+    try {
+      serial.write( key );
+      println( "Sending command to scanner" );
+    }
+    catch (Exception e)
+    {
+      println( "Exception " + e );
+    }
+```
 
 ## License
  © 2022 – CLICK - Université de Mons
