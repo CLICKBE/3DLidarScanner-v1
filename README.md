@@ -7,16 +7,17 @@ This repository demonstrates a homemade 3D LiDAR scanner made out of a [Benewake
 | The 3D LiDAR scanner | Example of 3D visualisation of the scanning |
 
 ## Files in the repository
-- src/* : All the files use to run the program
-- fritzing : [Fritzing](https://fritzing.org/) file used to draw the connections picture
+- src/* : All the files use to run the program;
+- 3D_support: folder containing the 3D model for TFMini holder to be placed on the Adafruit pantilt;
+- fritzing: [Fritzing](https://fritzing.org/) file used to draw the connections picture.
 
 ## Using the 3D LiDAR scanner v1 - With Adafruit Mini Pan-Tilt
 
 ### Code
 
-This code has been developped with VSCode and PlatformIO backend. This repo therefore reproduced the fodler structure used in such project. Once you opened VSCode, open PlatformIO home page and hit Open Project button. Then, select the folder of the repository.
+This code has been developed with VSCode and PlatformIO backend. This repo therefore reproduced the folder structure used in such project. Once you opened VSCode, open PlatformIO home page and hit Open Project button. Then, select the folder of the repository.
 
-If you don't know anything about VSCode and PlatformIO, here's a link to set you up : [https://platformio.org/install/ide?install=vscode](https://platformio.org/install/ide?install=vscode).
+If you don't know anything about VSCode and PlatformIO, here's a link to set you up: [https://platformio.org/install/ide?install=vscode](https://platformio.org/install/ide?install=vscode).
 
 ### Parts
 See `3DLiDAR_scanner-v1-BOM.csv`at the root of this repository.
@@ -28,17 +29,32 @@ Power is handled by an external power supply delivering 9V, 1.5A.
 <img height = 500 src=https://github.com/CLICKBE/3DLidarScanner-v1/assets/2494294/4b8f6705-4c27-4613-b089-9a572626b98d alt = "3DLidarScanner-v1">
 
 ### Library needed : 
-- TFMPlus : [https://github.com/budryerson/TFMini-Plus](https://github.com/budryerson/TFMini-Plus), no licence so author's right. 
-- ESP32Servo : [https://github.com/madhephaestus/ESP32Servo](https://github.com/madhephaestus/ESP32Servo), GPL2.1 
+- TFMPlus: [https://github.com/budryerson/TFMini-Plus](https://github.com/budryerson/TFMini-Plus), no licence so author's right. 
+- ESP32Servo: [https://github.com/madhephaestus/ESP32Servo](https://github.com/madhephaestus/ESP32Servo), GPL2.1 
 
 Those libraries are not included in this git repository but are referenced in the platformio.ini file and therefore should directly be downloaded by PlatformIO extension of VSCode when building the code. As none of those libraries are made available with persmissive open-source licence type, you have to contact the libraries authors if you want to include them in a product. 
 
 
 ## 3D Visualization :
-To perform a quick 3D visualization based on the serial data you can use the Processing script developed by Dana Peters : [LidarScanner.pde](https://drive.google.com/file/d/1D5wfzA8i0Pzh4qe-1skmpnqmhrvaq9d3/view?usp=drive_web) who also developped a [3D LiDAR scanner](https://www.qcontinuum.org/lidar-scanner).
+To perform a quick 3D visualization based on the serial data you can use the Processing script developed by Dana Peters : [LidarScanner.pde](https://drive.google.com/file/d/1D5wfzA8i0Pzh4qe-1skmpnqmhrvaq9d3/view?usp=drive_web) who also developed a [3D LiDAR scanner](https://www.qcontinuum.org/lidar-scanner).
 
-In order to use this script you will need free [Processing](https://processing.org/) software.
+In order to use this script, you will need free [Processing](https://processing.org/) software.
 
+In order to send commands from this Processing sketch to the scanner, you can modified the `keyPressed()` function of the code by adding the following `else` condition to the `if, else if` statements that are present :  
+```java
+else 
+{
+    try 
+    {
+      serial.write( key );
+      println( "Sending command to scanner" );
+    }
+    catch (Exception e)
+    {
+      println( "Exception " + e );
+    }
+}
+```
 
 ## License
  © 2022 – CLICK - Université de Mons
